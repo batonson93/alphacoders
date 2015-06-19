@@ -4,6 +4,7 @@ uglify = require('gulp-uglify')
 sass = require('gulp-sass')
 smap = require('gulp-sourcemaps')
 prefixr = require('gulp-autoprefixer')
+server = require('gulp-webserver')
 
 
 gulp.task('sass', function(){
@@ -16,11 +17,19 @@ gulp.task('sass', function(){
 	.pipe(gulp.dest('./css'))
 });
 
+gulp.task('webserver', function() {
+	gulp.src('./')
+		.pipe(server({
+			livereload: true,
+			directoryListing: true,
+			open: true
+		}));
+});
 
 gulp.task('watch', function() {;
-    gulp.watch('sass/*.scss', ['sass']);
+		gulp.watch('sass/*.scss', ['sass'])
 });
 
 gulp.task('default', function() {
-	gulp.start('sass', 'watch')
+	gulp.start('sass', 'webserver', 'watch')
 })
